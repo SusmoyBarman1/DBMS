@@ -1,0 +1,113 @@
+CREATE DATABASE assignment_2;
+
+USE assignment_2;
+
+CREATE TABLE employee(
+    employee_name varchar(50),
+    street varchar(50),
+    city varchar(50),
+    PRIMARY KEY(employee_name)
+);
+
+
+CREATE TABLE works(
+    employee_name varchar(50),
+    company_name varchar(50),
+    salary int,
+    FOREIGN KEY(employee_name) REFERENCES employee(employee_name)
+);
+
+
+CREATE TABLE company(
+    company_name varchar(50),
+    city varchar(50),
+    PRIMARY KEY(company_name)
+);
+
+
+CREATE TABLE manages(
+    employee_name varchar(50),
+    manager_name varchar(50),
+    FOREIGN KEY(employee_name) REFERENCES employee(employee_name)
+);
+
+INSERT INTO employee VALUES('Susmoy Barman','Vodra','Rajshahi');
+INSERT INTO employee VALUES('Gm Maruf','Road 1','Naogaon');
+INSERT INTO employee VALUES('Fozley Rabbi','Fire Survice Mor','Rajshahi');
+INSERT INTO employee VALUES('Nipa Das','Pipulbaria','Sirajganj');
+INSERT INTO employee VALUES('Mim','Atrai','Naogaon');
+INSERT INTO employee VALUES('Swajan','Mymensingh','Netrokona');
+INSERT INTO employee VALUES('Nishu','Pipulbaria','Sirajganj');
+
+INSERT INTO works VALUES('Susmoy Barman','First Bank Corporation',15000);
+INSERT INTO works VALUES('Gm Maruf','First Bank Corporation',11000);
+INSERT INTO works VALUES('Mim','First Bank Corporation',14000);
+INSERT INTO works VALUES('Fozley Rabbi','Small Bank Corporation',7700);
+INSERT INTO works VALUES('Nipa Das','Small Bank Corporation',8000);
+INSERT INTO works VALUES('Swajan','Small Bank Corporation',17700);
+INSERT INTO works VALUES('Nishu','Small Bank Corporation',8000);
+
+INSERT INTO company VALUES('First Bank Corporation','Dhaka');
+INSERT INTO company VALUES('Small Bank Corporation','Sylhet');
+
+INSERT INTO manages VALUES('Susmoy Barman','Omar Faruq');
+INSERT INTO manages VALUES('Gm Maruf','Asif Zaman');
+INSERT INTO manages VALUES('Fozley Rabbi','Mahfuzur Rahman');
+INSERT INTO manages VALUES('Nipa Das','Irshad Dey');
+INSERT INTO manages VALUES('Mim','Sowrav Das');
+INSERT INTO manages VALUES('Swajan','Somlal Das');
+INSERT INTO manages VALUES('Nishu','Nepal Das');
+
+Query 1:
+
+USE assignment_2;
+
+SELECT employee.employee_name,employee.city 
+FROM employee,works 
+WHERE works.company_name='First Bank Corporation' AND works.employee_name=employee.employee_name;
+
+Query 2:
+
+SELECT employee.employee_name,employee.street,employee.city 
+FROM employee,works 
+WHERE works.company_name='First Bank Corporation' AND works.salary>10000 AND works.employee_name=employee.employee_name;
+
+Query 3:
+
+USE assignment_2;
+
+SELECT employee.employee_name
+FROM employee,works 
+WHERE works.company_name!='First Bank Corporation' AND works.employee_name=employee.employee_name;
+
+Query 4:
+
+USE assignment_2;
+
+SELECT employee_name
+FROM works
+WHERE salary> all(SELECT salary FROM works WHERE company_name='Small Bank Corporation');
+
+Query 6:
+
+USE assignment_2;
+
+SELECT company_name, cnt
+FROM (
+    SELECT company_name, count(employee_name) AS cnt
+    FROM works
+    GROUP BY company_name
+) w1
+ORDER BY cnt DESC
+LIMIT 1
+
+Query 7:
+
+USE assignment_2;
+
+SELECT company_name
+FROM works GROUP BY company_name 
+HAVING AVG(salary)>(SELECT AVG(salary)
+                    FROM works 
+                    WHERE company_name= 'First Bank Corporation')
+    
