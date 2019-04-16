@@ -1,0 +1,17 @@
+employee(person_name(primary key), street, city);
+
+works(Id (primary key), person_name(foreign key) , company_name , salary);
+
+company(company_name(primary key), city);
+
+1. select all employees name who lives in 'Rajshahi' city
+
+2. select all persons whose salary is more than 5000
+
+3. select person_name and street address whose salary is
+
+more than 5000
+
+4. select person_name , street and company city whose
+
+salary is more than 5000

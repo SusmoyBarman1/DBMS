@@ -1,0 +1,90 @@
+#Questions:
+
+employee(person_name(primary key), street, city);
+
+works(Id (primary key), person_name(foreign key) , company_name , salary);
+
+company(company_name(primary key), city);
+
+1. select all employees name who lives in 'Rajshahi' city
+
+2. select all persons whose salary is more than 5000
+
+3. select person_name and street address whose salary is
+
+more than 5000
+
+4. select person_name , street and company city whose
+
+salary is more than 5000
+
+
+
+
+
+
+#Answer:
+
+CREATE DATABASE lab_test_table;
+
+USE lab_test_table;
+
+CREATE TABLE employee(
+    person_name varchar(50),
+    street varchar(50),
+    city varchar(50),
+    PRIMARY KEY(person_name)
+);
+
+
+CREATE TABLE works(
+    person_name varchar(50),
+    ID int,
+    company_name varchar(50),
+    salary int,
+    PRIMARY KEY(ID),
+    FOREIGN KEY(person_name) REFERENCES employee(person_name)
+);
+
+
+CREATE TABLE company(
+    company_name varchar(50),
+    city varchar(50),
+    PRIMARY KEY(company_name)
+);
+
+// Insert into table employee
+
+INSERT INTO employee VALUES('Susmoy Barman','Vodra','Rajshahi');
+INSERT INTO employee VALUES('Gm Maruf','Road 1','Naogaon');
+INSERT INTO employee VALUES('Fozley Rabbi','Fire Survice Mor','Rajshahi');
+INSERT INTO employee VALUES('Nipa Das','Pipulbaria','Sirajganj');
+INSERT INTO employee VALUES('Mim','Atrai','Naogaon');
+
+// Insert into table works
+
+INSERT INTO works VALUES('Susmoy Barman',13,'Google','Dhaka',10000);
+INSERT INTO works VALUES('Gm Maruf',36,'Pixel','Sylhet',9000);
+INSERT INTO works VALUES('Mim',105,'Bangladesh Bank','Rajshahi',4000);
+INSERT INTO works VALUES('Fozley Rabbi',104,'Fire Survice','Rajshahi',7700);
+INSERT INTO works VALUES('Nipa Das',106,'Education Board','Rajshahi',8000);
+
+// Insert into table company
+
+INSERT INTO works VALUES('Google','Dhaka');
+INSERT INTO works VALUES('Pixel','Sylhet');
+INSERT INTO works VALUES('Bangladesh Bank','Rajshahi');
+INSERT INTO works VALUES('Fire Survice','Rajshahi');
+INSERT INTO works VALUES('Education Board','Rajshahi');
+
+
+Query 1: SELECT * FROM employee WHERE employee.city='Rajshahi';
+
+Query 2: SELECT person_name from works WHERE salary>5000;
+
+Query 3: SELECT works.person_name,employee.street from works,employee WHERE salary>5000 AND works.person_name=employee.person_name;
+
+Query 4: SELECT works.person_name,employee.street,company.city
+		from works,employee,company 
+		WHERE salary>5000 AND works.person_name=employee.person_name AND works.company_name=company.company_name;
+
